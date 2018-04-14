@@ -4,6 +4,7 @@
 
 @ print function is complete, no modifications needed
     .global	print
+    .global     p
 print:
 	stmfd	sp!, {r3, lr}
 	mov	r3, r0
@@ -13,13 +14,34 @@ print:
 	bl	printf
 	ldmfd	sp!, {r3, pc}
 
+p:
+        stmfd   sp!, {r0-r6, lr}
+        //push {r4, lr}
+        mov     r4, r0
+        ldr     r0, stri
+        bl      printf
+        //pop {r4, lr}
+        //mov pc, lr
+        ldmfd   sp!, {r0-r6, pc}
+
+stri:
+        .word   s
+
 startstring:
 	.word	string0
 
     .global	towers
 towers:
+   stmfd   sp!, {r0-r6, lr}
+   mov r0, #0
+   mov r1, #0
+   mov r2, #0
+   mov r3, #0
+   mov r4, #0
+   mov r5, #0
+   mov r6, #0
    /* Save calllee-saved registers to stack */
-   
+   bl p
    /* Save a copy of all 3 incoming parameters */
 
 if:
@@ -55,6 +77,7 @@ else:
 
 endif:
    /* Restore Registers */
+   ldmfd   sp!, {r0-r6, pc}
 
 @ Function main is complete, no modifications needed
     .global	main
@@ -86,6 +109,8 @@ printdata:
 	.word	string2
 	.word	string3
 
+s:
+        .asciz "r1 is %d, r2 is %d, r3 is %d, r4 is %d, r5 is %d, r6 is %d\n"
 string0:
 	.asciz	"Move from peg %d to peg %d\n"
 string1:
