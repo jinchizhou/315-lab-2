@@ -53,8 +53,16 @@ towers:
       r6 is goal
       r7 is steps
       r8 is peg */
+
    push {lr}
-   push {r4-r8}
+   
+   sub sp, sp, #20
+   str r4, [sp, #0]
+   str r5, [sp, #4]
+   str r6, [sp, #8]
+   str r7, [sp, #12]
+   str r8, [sp, #16]
+
    //bl p
    /* Save a copy of all 3 incoming parameters as original parameters*/
    
@@ -119,7 +127,13 @@ else:
 endif:
    /* Restore Registers */
    //ldmfd   sp!, {pc}
-   pop {r4-r8}
+   ldr r4, [sp, #0]
+   ldr r5, [sp, #4]
+   ldr r6, [sp, #8]
+   ldr r7, [sp, #12]
+   ldr r8, [sp, #16]
+   add sp, sp, #20
+
    pop {pc}
 
 @ Function main is complete, no modifications needed
