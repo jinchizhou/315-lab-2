@@ -54,8 +54,9 @@ towers:
       r7 is steps
       r8 is peg */
 
-   push {lr}
-   
+   sub sp, sp, #4
+   str lr, [sp, #0]
+
    sub sp, sp, #20
    str r4, [sp, #0]
    str r5, [sp, #4]
@@ -132,9 +133,9 @@ endif:
    ldr r6, [sp, #8]
    ldr r7, [sp, #12]
    ldr r8, [sp, #16]
-   add sp, sp, #20
+   add sp, sp, #24
 
-   pop {pc}
+   ldr pc, [sp, #-4]
 
 @ Function main is complete, no modifications needed
     .global	main
